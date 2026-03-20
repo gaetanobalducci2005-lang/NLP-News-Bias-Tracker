@@ -15,3 +15,7 @@ Using **Natural Language Processing (NLP)**, the tool processes headlines to qua
 * **Language:** Python
 * **Libraries:** Pandas, TextBlob, Plotly/Matplotlib
 * **Environment:** Google Colab / AWS (S3 Integration pending)
+
+## How to Run
+You can run the analysis directly in your browser using Google Colab:
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KucWdZADfHib0nxmlgXJnsnXs78O0yGM)
