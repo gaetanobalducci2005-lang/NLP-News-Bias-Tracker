@@ -5,7 +5,7 @@
     "colab": {
       "provenance": [],
       "gpuType": "T4",
-      "authorship_tag": "ABX9TyOrXWyeZGjCXlEl38kDkH9N",
+      "authorship_tag": "ABX9TyP6rg7584EMcK5MEMFv87ph",
       "include_colab_link": true
     },
     "kernelspec": {
@@ -2423,7 +2423,7 @@
         "colab_type": "text"
       },
       "source": [
-        "<a href=\"https://colab.research.google.com/github/gaetanobalducci2005-lang/NLP-News-Bias-Tracker/blob/code%2Bistogram.py/analisi_sentiment_nlp.ipynb.\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+        "<a href=\"https://colab.research.google.com/github/gaetanobalducci2005-lang/NLP-News-Bias-Tracker/blob/not-descr/analisi_sentiment_nlp.ipynb.\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
       ]
     },
     {
@@ -2438,30 +2438,22 @@
     {
       "cell_type": "code",
       "source": [
-        "# 1. SETUP: Installazioni (silenziose) e Import\n",
         "!pip install -q transformers torch pandas\n",
         "import pandas as pd\n",
         "import torch\n",
         "from transformers import pipeline\n",
         "\n",
-        "# 2. DATI: Caricamento e Pulizia preventiva\n",
         "data_url = \"https://raw.githubusercontent.com/gaetanobalducci2005-lang/NLP-News-Bias-Tracker/main/NLP_Dataset(Foglio1).csv\"\n",
-        "# Leggiamo il CSV gestendo separatore, codifica e linee malformate; puliamo subito i titoli vuoti\n",
         "dataset = pd.read_csv(data_url, sep=';', encoding='latin1', on_bad_lines='skip').fillna({'Titolo': 'No text'})\n",
         "\n",
-        "# 3. MODELLO: Setup IA con accelerazione GPU (device=0) se disponibile\n",
         "device = 0 if torch.cuda.is_available() else -1\n",
         "print(f\"🤖 Setup modello RoBERTa in corso su dispositivo: {'GPU' if device==0 else 'CPU'}...\")\n",
         "analizzatore = pipeline(\"sentiment-analysis\", model=\"cardiffnlp/twitter-roberta-base-sentiment-latest\", truncation=True, max_length=512, device=device)\n",
         "\n",
-        "# 4. ESECUZIONE: Analisi in BATCH (molto più veloce con la GPU)\n",
         "print(\"🧠 Analisi geopolitica parallela sui titoli...\")\n",
-        "# Estraiamo 'label' direttamente in lista per efficienza\n",
         "dataset['RoBERTa_Sentiment'] = [res['label'] for res in analizzatore(dataset['Titolo'].astype(str).tolist())]\n",
         "\n",
-        "# --- RISULTATO INTERMEDIO ---\n",
         "print(\"✅ Analisi completata. Ecco le prime 10 righe con i sentimenti:\")\n",
-        "# Usa display() per forzare la visualizzazione anche se non è l'ultima riga\n",
         "display(dataset.head(10))\n"
       ],
       "metadata": {
@@ -2552,7 +2544,7 @@
         "id": "hNPmR-m6NCRO",
         "outputId": "7466bca3-332b-4878-995a-f83bb1a541f4"
       },
-      "execution_count": 1,
+      "execution_count": null,
       "outputs": [
         {
           "output_type": "stream",
@@ -2977,9 +2969,6 @@
     {
       "cell_type": "code",
       "source": [
-        "# 5. AGGREGAZIONE: Mappatura numerica e raggruppamento\n",
-        "# In un solo blocco logico (method chaining), mappiamo, raggruppiamo, calcoliamo media e ordiniamo.\n",
-        "# positive:1, neutral:0, negative:-1\n",
         "risultati_geopolitici = (\n",
         "    dataset.assign(Sentiment_Score=dataset['RoBERTa_Sentiment'].map({'positive': 1, 'neutral': 0, 'negative': -1}))\n",
         "        .groupby('Orientamento governo')['Sentiment_Score']\n",
@@ -2988,7 +2977,6 @@
         "                    .sort_values(by='Sentiment_Score', ascending=False)\n",
         "                    )\n",
         "\n",
-        "# --- RISULTATO FINALE ---\n",
         "print(\"📊 Medie del sentiment RoBERTa per fazione geopolitica:\")\n",
         "display(risultati_geopolitici)"
       ],
@@ -2997,9 +2985,9 @@
           "base_uri": "https://localhost:8080/",
           "height": 425
         },
-        "collapsed": true,
         "id": "a8bl0KSUXrHE",
-        "outputId": "975ce4ea-6a4a-43db-ea14-25a389e8fa37"
+        "outputId": "975ce4ea-6a4a-43db-ea14-25a389e8fa37",
+        "collapsed": true
       },
       "execution_count": null,
       "outputs": [
@@ -3244,12 +3232,8 @@
     {
       "cell_type": "code",
       "source": [
-        "# 1. Importiamo Plotly, il re dei grafici interattivi\n",
         "import plotly.express as px\n",
         "\n",
-        "# 2. Creiamo il grafico a barre\n",
-        "# 'x' sarà l'orientamento politico, 'y' sarà il punteggio.\n",
-        "# Coloriamo le barre in base al punteggio per rendere subito chiaro chi è negativo e chi positivo\n",
         "grafico_sentiment = px.bar(\n",
         "    risultati_geopolitici,\n",
         "    x='Orientamento governo',\n",
@@ -3260,16 +3244,12 @@
         "    labels={'Orientamento governo': 'Fazione Geopolitica', 'Sentiment_Score': 'Punteggio Medio'},\n",
         "    text_auto='.2f' # Mostra il numero sulla barra arrotondato a due decimali\n",
         ")\n",
-        "\n",
-        "# 3. Rendiamo il grafico ancora più bello e \"pulito\"\n",
         "grafico_sentiment.update_layout(\n",
-        "    xaxis_title='', # Nascondiamo l'etichetta dell'asse X perché è già ovvia\n",
+        "    xaxis_title='',\n",
         "    yaxis_title='Positività / Negatività',\n",
-        "    plot_bgcolor='rgba(0,0,0,0)', # Sfondo trasparente, molto elegante\n",
-        "    title_x=0.5 # Centriamo il titolo\n",
+        "    plot_bgcolor='rgba(0,0,0,0)',\n",
+        "    title_x=0.5\n",
         ")\n",
-        "\n",
-        "# 4. Mostriamo il capolavoro\n",
         "grafico_sentiment.show()"
       ],
       "metadata": {
