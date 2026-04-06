@@ -13,8 +13,8 @@ Using **Natural Language Processing (NLP)**, the tool processes headlines to qua
 
 ## Tech Stack
 * **Language:** Python
-* **Libraries:** Pandas, TextBlob, Plotly/Matplotlib
-* **Environment:** Google Colab / AWS (S3 Integration pending)
+* **Libraries:** Pandas, RoBERTa, Plotly/Matplotlib
+* **Environment:** Google Colab
 
 ## How to Run
 You can run the analysis directly in your browser using Google Colab:
