@@ -4,6 +4,11 @@ An end-to-end NLP pipeline analyzing editorial framing and geopolitical sentimen
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KucWdZADfHib0nxmlgXJnsnXs78O0yGM)
 
+HTML:
+<a href="https://colab.research.google.com/drive/12PulltQ_lctKRY4cvoGs_VG4xQD6Lyr7#scrollTo=AsgC2URKu9kd" target="_blank">
+  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+</a>
+
 ---
 
 ## Overview
