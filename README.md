@@ -1,21 +1,40 @@
 # Global Media Sentiment & Geopolitics (NLP)
 
-## Project Overview
-This Python-driven project analyzes the editorial bias and geopolitical sentiment of the top 3 media outlets from the world's most influential nations (Western, Russian, and Chinese blocs). 
+An end-to-end NLP pipeline analyzing editorial framing and geopolitical sentiment across major international news outlets during global crises.
 
-Using **Natural Language Processing (NLP)**, the tool processes headlines to quantify media narratives during international crises or key global events.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KucWdZADfHib0nxmlgXJnsnXs78O0yGM)
+
+---
+
+## Overview
+This project benchmarks media coverage across diverse political blocs (e.g., Western democracies, China, Russia) during international conflicts. By evaluating news headlines through transformer-based sentiment analysis, the pipeline measures emotional polarity and cross-national editorial bias.
 
 ## Key Features
-* **NLP Sentiment Scoring:** Automated analysis of headlines using `TextBlob`/`VADER`.
-* **Geopolitical Comparison:** Direct sentiment benchmarking between different global factions.
-* **Data Visualization:** Interactive **Choropleth Maps** and statistical charts to represent the emotional tone of each country's media landscape.
-* **Clean Data Architecture:** Built with `Pandas` for efficient data manipulation and cleaning.
+* **Transformer-Based NLP:** Uses `cardiffnlp/twitter-roberta-base-sentiment-latest` via Hugging Face `pipeline` for sequence classification (`positive`, `neutral`, `negative`).
+* **Geopolitical Benchmarking:** Maps sentiments onto discrete geopolitical factions and government alignments (`Orientamento governo`) to expose narrative discrepancies.
+* **Sentiment Metric Normalization:** Translates qualitative model outputs into a continuous polarity index ($+1.0$ positive, $0.0$ neutral, $-1.0$ negative).
+* **Interactive Visualization:** Renders dynamic bar charts via `Plotly Express` with custom diverging color scales (`RdBu`) to highlight emotional divergence.
+* **Automated Data Pipeline:** Pulls remote tabular datasets directly from GitHub via `pandas` with robust missing-value handling and GPU-accelerated batch inference.
 
 ## Tech Stack
-* **Language:** Python
-* **Libraries:** Pandas, RoBERTa, Plotly/Matplotlib
-* **Environment:** Google Colab
+* **Language:** Python 3.10+
+* **Deep Learning & NLP:** Hugging Face Transformers, PyTorch
+* **Data Processing:** Pandas
+* **Visualization:** Plotly Express
+* **Infrastructure:** Google Colab (T4 GPU)
 
-## How to Run
-You can run the analysis directly in your browser using Google Colab:
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1KucWdZADfHib0nxmlgXJnsnXs78O0yGM)
+## Architecture & Workflow
+```text
+GitHub Raw CSV
+      │
+      ▼
+Pandas Preprocessing (Missing value handling, text normalization)
+      │
+      ▼
+RoBERTa Sentiment Pipeline (GPU-accelerated inference)
+      │
+      ▼
+Sentiment Scoring (-1.0 to +1.0) & Group-by Aggregation
+      │
+      ▼
+Plotly Express Interactive Visualizations
